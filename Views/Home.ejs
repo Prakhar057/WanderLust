@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+</head>
+<body>
+    <ul>
+        <% allListings.forEach(listing => { %>
+         <li>
+             <a href="/listings/<%=listing._id%>"><%= listing.title %></a>
+         </li>
+        <% }) %>
+    </ul>
+    <br>
+    <br>
+    <button><a href="/listings/new">Create New Listing</a></button>
+    
+</body>
+</html>
