@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html , body{
+    height: 100%;
+    width: 100%;
+    background-color: whitesmoke;
+    font-family: "Inter",sans-serif;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-house-chimney{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color :#222222;
+}
+
+.f-info-links a  :hover {
+   text-decoration: underline;
+}
+
+.f-info-links{
+    width: 100%;
+}
+.f-info-socials{
+    width: 100%;
+    font-size: 1.2rem;
+    margin-right: 2rem;
+}
+.f-info{
+    height: 8rem;
+    text-align: center;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items:center
+}

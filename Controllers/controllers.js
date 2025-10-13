@@ -7,7 +7,7 @@ async function getListings(req,res){
 async function getListingInfo(req,res){
     const id = req.params.id;
     const listing  = await Listings.findById(id)
-    console.log(listing)
+   
     res.render("Listing", {listing})
 }
 
@@ -28,6 +28,28 @@ async function addNewListing(req,res) {
     res.redirect("/listings")
 }
 
+async function editListingInfo(req,res) {
+    const id= req.params.id
+    const listing  = await Listings.findById(id)
+    res.render ("EditListing",{listing})
+}
+async function EditListing(req,res){
+    const id   = req.params.id;
+    const body  =req.body
+    await Listings.findByIdAndUpdate(id,{
+        title: body.title,
+        price: body.price,
+        location: body.location,
+        country: body.country
+    })
+    res.redirect(`/listings`)
+}
+
+async function deleteListing (req,res){
+    const id = req.params.id
+    await Listings.findByIdAndDelete(id)
+    res.redirect("/listings")
+}
 
 
 
@@ -36,4 +58,7 @@ module.exports = {
   getListingInfo,
   getNewListing,
   addNewListing,
+  editListingInfo,
+  EditListing,
+  deleteListing,
 };

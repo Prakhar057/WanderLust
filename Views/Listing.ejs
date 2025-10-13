@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ListingInfo</title>
-    <style>
-        img{
-            height: 200px;
-            width: 200px;
-
-        }
-    </style>
-</head>
+<%layout("./layouts/boilerplate.ejs")%>
 <body>
     <h1><%= listing.title %></h1>
     <img src=<%= listing.image %> alt="">
     <br>
     <h2><%=listing.location%></h2>
-    <h2><%=listing.country%></h2>
+    <h2><%=listing.country%></h2> 
     <p>Price : ₹<%=listing.price.toLocaleString("en-IN") %></p>
+    <form action="/listings/edit/<%=listing._id%>" ><button >Edit</button></form>
+    <form method="post" action="/listings/delete/<%=listing._id%>?_method=delete"><button>Delete</button></form>
 </body>
-</html>
