@@ -1,18 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Listing</title>
-</head>
-<body>
-    <form action="/listings/edit/<%=listing.id%>?_method=PUT" method="post">
-            <input type="text" value="<%=listing.title%>" placeholder="Title" name="title" >
-            <input type="text" value="<%=listing.location%>" placeholder="Location" name="location" >
-            <input type="text" value="<%=listing.country%>" placeholder="Country" name="country" >
-            <input type="number" value="<%=listing.price%>" placeholder="Price" name="price" >
-            <button type="submit">Edit Listing</button>
+<%layout("./layouts/boilerplate.ejs")%>
+  <body>
+    <br>
+    <h3>Edit Listing</h3>
+    <form class="needs-validation" novalidate action="/listings/edit/<%=listing.id%>?_method=PUT" method="post">
+      <div>
+        <label  class= "form-label" for="title">Title</label>
+        <input
+          type="text"
+          value="<%=listing.title%>"
+          placeholder="Title"
+          name="title"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please choose a Title.</div>
+      </div>
+      <div>
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          value="<%=listing.location%>"
+          placeholder="Location"
+          name="location"
+          required
         
+        />
+        <div class="invalid-feedback">Please choose a Location.</div>
+      </div>
+      <div>
+        <label for="country" class="form-label">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          value="<%=listing.country%>"
+          placeholder="Country"
+          name="country"
+          required
+        />
+        <div class="invalid-feedback">Please choose a Country.</div>
+      </div>
+      <div>
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          value="<%=listing.image%>"
+          placeholder="ImageUrl"
+          name="image"
+          required
+        />
+        <div class="invalid-feedback">Please choose an ImageUrl.</div>
+      </div>
+      <div>
+        <label for="price" class="form-label">Price</label>
+        <input
+          type="number"
+          class="form-control"
+          value="<%=listing.price%>"
+          placeholder="Price"
+          name="price"
+          required
+        />
+        <div class="invalid-feedback">Please choose a Price.</div>
+      </div>
+      <br>
+      
+      <button class="btn btn-dark" type="submit">Edit Listing</button>
     </form>
-</body>
-</html>
+  </body>
+

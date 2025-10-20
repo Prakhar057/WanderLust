@@ -1,10 +1,48 @@
 <%layout("./layouts/boilerplate.ejs")%>
 <body>
-    <form action="/listings/new" method="post">
-        <input type="text" placeholder="Title" name="title" >
-        <input type="text" placeholder="Location" name="location" >
-        <input type="text" placeholder="Country" name="country" >
-        <input type="number" placeholder="Price" name="price" >
-        <button type="submit">Create Listing</button>
+    <br><br>
+    <form class="needs-validation" action="/listings/new" method="post" novalidate>
+        <div>
+            <label class="form-label" for="title">Title</label>
+            <input required class="form-control" type="text"  name="title" >
+            
+              <div class="invalid-feedback">
+                Please choose a Title.
+              </div>
+        </div>
+        <div>
+            <label class="form-label" for="location">Location</label>
+            <input required class="form-control" type="text"  name="location" >
+            
+              <div class="invalid-feedback">
+                Please choose a Location.
+              </div>
+        </div>
+        <div>
+            <label class="form-label" for="country">Country</label>
+            <input required class="form-control" type="text"  name="country" >
+            
+              <div class="invalid-feedback">
+                Please choose a Country.
+              </div>
+        </div>
+        <div>
+            <label class="form-label" for="image">ImageUrl</label>
+            <input required class="form-control" type="text"  name="image" >
+            
+              <div class="invalid-feedback">
+                Please choose an ImageUrl.
+              </div>
+        </div>
+        <div>
+            <label for="price" class="form-label">Price</label> 
+            <input required type="number" class="form-control"  name="price" >
+          
+              <div class="invalid-feedback">
+                Please choose a Price.
+              </div>
+        </div>
+        <BR></BR>
+        <button class="btn btn-dark" type="submit">Create Listing</button>
     </form>
 </body>

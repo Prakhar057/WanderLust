@@ -11,10 +11,10 @@ const listingSchema = new mongoose.Schema({
   image: {
     type: String,
     default:
-      "https://unsplash.com/photos/brown-wooden-house-surrounded-by-trees-at-daytime-xvY3zEBk0Ic",
+      "https://images.unsplash.com/photo-1531183436556-51f742660c8d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2140",
     set: (v) =>
       v === ""
-        ? "https://unsplash.com/photos/brown-wooden-house-surrounded-by-trees-at-daytime-xvY3zEBk0Ic"
+        ? "https://images.unsplash.com/photo-1531183436556-51f742660c8d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2140"
         : v,
   },
   price: {
@@ -30,4 +30,4 @@ const listingSchema = new mongoose.Schema({
 
 const Listing = mongoose.model("Listing", listingSchema);
 
-module.exports = Listing ;
+module.exports = Listing;

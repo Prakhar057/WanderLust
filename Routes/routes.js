@@ -10,6 +10,9 @@ const {
 } = require("../Controllers/controllers");
 const Router = express.Router();
 
+Router.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 Router.get("/listings", getListings);
 Router.get("/listings/new", getNewListing);
 Router.get("/listings/:id", getListingInfo);

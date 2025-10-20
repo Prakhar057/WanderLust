@@ -9,11 +9,19 @@ html , body{
     width: 100%;
     background-color: whitesmoke;
     font-family: "Inter",sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .navbar {
     height: 5rem;
     background-color: white;
+}
+footer{
+
+    margin-top: auto;
 }
 
 .fa-house-chimney{
@@ -50,4 +58,75 @@ html , body{
     flex-wrap: wrap;
     justify-content: center;
     align-items:center
+}
+.row{
+    margin-top: 5px;
+}
+.card {
+    min-height: 20rem;
+    width: 20rem;
+    border:  none;
+    margin: 2rem;
+    border-radius: 6px;
+}
+.card-img-top {
+    
+    max-height: 15rem;
+    border-start-start-radius: 6px !important;
+    width: 100% !important;
+    object-fit: cover;
+
+
+}
+
+.card-body{
+    padding:0px !important;
+}
+
+.card-text{
+    font-weight: 600px !important;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay  :hover {
+    opacity: 0.5;
+}
+
+.btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.showCard{
+    
+    height: 30vh;
+    width: 50vw;
+    object-fit: cover;
+}
+.showImage{
+    height: 40vh;
+    width: 20vw;
+    object-fit: cover;
+}
+
+.showText{
+    font-weight: 600px !important;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 1rem;
+}
+.showbtn{
+    background-color: #fe424d !important;
+    border: none !important;
+    border-radius: 5px ;
+    display: inline-block;
+    margin: 1rem;
 }

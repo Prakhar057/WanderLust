@@ -5,6 +5,7 @@ const connectToDb = require("./connection");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require('./utils/wrapAsync')
 connectToDb();
 const app = express();
 
@@ -18,6 +19,11 @@ app.use(express.static("./Public"));
 
 app.use("/", Router);
 
-app.listen(8000, (req, res) => {
-  console.log("Server Listening at 8000");
+
+app.use((err,req,res,next)=>{
+ res.send("Something Went Wrong")
+})
+
+app.listen(3000, (req, res) => {
+  console.log("Server Listening at 3000");
 });
