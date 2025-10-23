@@ -26,6 +26,9 @@ const listingSchema = new mongoose.Schema({
   country: {
     type: String,
   },
+},{
+  strict : true,
+  strictQuery : true
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

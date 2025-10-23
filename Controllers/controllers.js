@@ -1,5 +1,7 @@
 const Listings = require("../Models/listings");
+const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
+const listingSchema = require("../schema");
 
 async function getListings(req, res) {
   const allListings = await Listings.find({});
@@ -18,7 +20,7 @@ async function getNewListing(req, res) {
 }
 
 async function addNewListing(req, res, next) {
-  wrapAsync(async (req, res) => {
+  try {
     const body = req.body;
     await Listings.insertOne({
       title: body.title,
@@ -30,7 +32,9 @@ async function addNewListing(req, res, next) {
       console.log("New Listing Added");
     });
     res.redirect("/listings");
-  });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function editListingInfo(req, res) {
@@ -38,16 +42,24 @@ async function editListingInfo(req, res) {
   const listing = await Listings.findById(id);
   res.render("EditListing", { listing });
 }
+
 async function EditListing(req, res) {
-  const id = req.params.id;
-  const body = req.body;
-  await Listings.findByIdAndUpdate(id, {
-    title: body.title,
-    price: body.price,
-    location: body.location,
-    country: body.country,
-  });
-  res.redirect(`/listings`);
+  try {
+    if (!req.body.listing) {
+      throw new ExpressError(400, "Bad Request, Send Valid Data");
+    }
+    const id = req.params.id;
+    const body = req.body;
+    await Listings.findByIdAndUpdate(id, {
+      title: body.title,
+      price: body.price,
+      location: body.location,
+      country: body.country,
+    });
+    res.redirect(`/listings`);
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function deleteListing(req, res) {
