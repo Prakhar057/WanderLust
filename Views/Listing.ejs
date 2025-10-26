@@ -1,7 +1,8 @@
 <%layout("./layouts/boilerplate.ejs")%>
 <body class="showBody">
-    <br>
-    <h1>Listing Details:</h1>
+  <br />
+  <h1><%= listing.title %></h1>
+
   <div class="card showCard">
     <img
       src="<%= listing.image %>"
@@ -10,7 +11,6 @@
     />
     <div class="card-body">
       <p class="card-text showText"></p>
-      <h1>Title: <%= listing.title %></h1>
       <h2>Location: <%=listing.location%></h2>
       <h2>Country: <%=listing.country%></h2>
       <h3>Price: ₹<%=listing.price.toLocaleString("en-IN") %></h3>
@@ -18,10 +18,14 @@
   </div>
 
   <form class="showbtn" action="/listings/edit/<%=listing._id%>">
-    <button class="btn btn-dark ">Edit</button>
+    <button class="btn btn-dark">Edit</button>
   </form>
-  
-  <form class="showbtn" method="post" action="/listings/delete/<%=listing._id%>?_method=delete">
-    <button class="btn btn-dark ">Delete</button>
+
+  <form
+    class="showbtn"
+    method="post"
+    action="/listings/delete/<%=listing._id%>?_method=delete"
+  >
+    <button class="btn btn-dark">Delete</button>
   </form>
 </body>
