@@ -7,22 +7,23 @@
 html , body{
     height: 100%;
     width: 100%;
-    background-color: whitesmoke;
+    background-color: white;
     font-family: "Inter",sans-serif;
     position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
+    text-align: left;
 }
 
+ 
 .navbar {
     height: 5rem;
     background-color: white;
 }
-footer{
 
-    margin-top: auto;
-}
+
 
 .fa-house-chimney{
     color: #fe424d;
@@ -51,22 +52,36 @@ footer{
     margin-right: 2rem;
 }
 .f-info{
-    height: 8rem;
+    min-height: 8rem;
+    width: 100%;
     text-align: center;
     background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items:center
+    align-items: center;
 }
+
+footer.footer{
+
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: 5px;
+}
+
 .row{
     margin-top: 5px;
+    justify-content: flex-start;
 }
 .card {
     min-height: 20rem;
     width: 20rem;
     border:  none;
-    margin: 2rem;
+    margin: 2rem 2rem 2rem 0;
     border-radius: 6px;
 }
 .card-img-top {
@@ -80,13 +95,13 @@ footer{
 }
 
 .card-body{
-    padding:0px !important;
+    padding:5px !important;
 }
 
 .card-text{
     font-weight: 600px !important;
     font-size: 1rem;
-    text-align: center;
+    text-align: left;
 }
 
 .listing-link{
@@ -104,7 +119,11 @@ footer{
     background-color: #fe424d !important;
     border: none !important;
 }
-
+.edit, .delete{
+    text-align: left;
+    align-self: start;
+    align-items: self-start;
+}
 .showCard{
     
     height: 30vh;
@@ -120,7 +139,7 @@ footer{
 .showText{
     font-weight: 600px !important;
     font-size: 1.5rem;
-    text-align: center;
+    text-align: left;
     padding: 1rem;
 }
 .showbtn{
@@ -128,5 +147,6 @@ footer{
     border: none !important;
     border-radius: 5px ;
     display: inline-block;
+    text-align: left;
     margin: 1rem;
 }

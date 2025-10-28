@@ -1,5 +1,5 @@
 <%layout("./layouts/boilerplate.ejs")%>
-<body class="showBody">
+<div class="showBody">
   <br />
   <h1><%= listing.title %></h1>
 
@@ -17,15 +17,34 @@
     </div>
   </div>
 
-  <form class="showbtn" action="/listings/edit/<%=listing._id%>">
+  <form class="showbtn edit" action="/listings/edit/<%=listing._id%>">
     <button class="btn btn-dark">Edit</button>
   </form>
 
   <form
-    class="showbtn"
+    class="showbtn delete"
     method="post"
     action="/listings/delete/<%=listing._id%>?_method=delete"
   >
     <button class="btn btn-dark">Delete</button>
   </form>
+  <hr />
+  <div >
+    <h3>Leave A review</h3>
+    <form action="/listings/<%=listing.id%>/reviews" method="post">
+      <div class="mb-3 mt-3">
+        <label class="form-label" for="rating">Rating</label>
+        <input type="range" class="form-range" min="1" max="5" name="review[rating]" id="rating" />
+      </div>
+      <div class="mb-3 mt-3">
+        <label class="form-label" for="comment">Comments</label>
+        <textarea
+          class="form-control"
+          name="review[comment]"
+          id="review"
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+  </div>
 </body>

@@ -7,6 +7,7 @@ const {
   getListingInfo,
   addNewListing,
   getNewListing,
+  addReview,
 } = require("../Controllers/controllers");
 const ExpressError = require("../utils/ExpressError")
 const Router = express.Router();
@@ -34,5 +35,6 @@ Router.delete("/listings/delete/:id", deleteListing);
 
 Router.post("/listings/new", validateListing, addNewListing);
 Router.put("/listings/edit/:id", validateListing, EditListing);
+Router.post("/listings/:id/reviews",addReview)
 
 module.exports = Router;

@@ -2,6 +2,7 @@ const Listings = require("../Models/listings");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
 const listingSchema = require("../schema");
+const Review = require("../Models/reviews");
 
 async function getListings(req, res) {
   const allListings = await Listings.find({});
@@ -68,6 +69,27 @@ async function deleteListing(req, res) {
   res.redirect("/listings");
 }
 
+async function addReview(req, res) {
+  const id = req.params.id;
+  console.log(id);
+  let listing = await Listings.findById(id);
+
+  const {rating,comment} = req.body.review;
+  const numericRating = Number(rating);
+
+  const review = await Review.create({
+    comment : comment,
+    rating : numericRating
+  })
+
+  listing.reviews.push(review);
+  await listing.save();
+
+  res.redirect(`/listings/${id}`)
+  
+  
+}
+
 module.exports = {
   getListings,
   getListingInfo,
@@ -76,4 +98,5 @@ module.exports = {
   editListingInfo,
   EditListing,
   deleteListing,
+  addReview,
 };
