@@ -1,7 +1,7 @@
 const Listings = require("../Models/listings");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
-const listingSchema = require("../schema");
+const { listingSchema, reviewSchema } = require("../schema");
 const Review = require("../Models/reviews");
 
 async function getListings(req, res) {
@@ -11,7 +11,7 @@ async function getListings(req, res) {
 
 async function getListingInfo(req, res) {
   const id = req.params.id;
-  const listing = await Listings.findById(id);
+  const listing = await Listings.findById(id).populate("reviews");
 
   res.render("Listing", { listing });
 }
@@ -74,20 +74,27 @@ async function addReview(req, res) {
   console.log(id);
   let listing = await Listings.findById(id);
 
-  const {rating,comment} = req.body.review;
+  const { rating, comment } = req.body.review;
   const numericRating = Number(rating);
 
   const review = await Review.create({
-    comment : comment,
-    rating : numericRating
-  })
+    comment: comment,
+    rating: numericRating,
+  });
 
   listing.reviews.push(review);
   await listing.save();
 
-  res.redirect(`/listings/${id}`)
+  res.redirect(`/listings/${id}`);
+}
+
+async function deleteReview(req,res){
+  const listingId = req.params.id;
+  const reviewId = req.params.reviewId;
   
-  
+   await Listings.findByIdAndUpdate(listingId,{$pull:{reviews:reviewId}})
+   await Review.findByIdAndDelete(reviewId)
+  res.redirect(`/listings/${listingId}`);
 }
 
 module.exports = {
@@ -99,4 +106,5 @@ module.exports = {
   EditListing,
   deleteListing,
   addReview,
+  deleteReview,
 };

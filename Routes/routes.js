@@ -1,4 +1,8 @@
 const express = require("express");
+const Router = express.Router({mergeParams:true});
+const ExpressError = require("../utils/ExpressError");
+const { listingSchema, reviewSchema } = require("../schema");
+
 const {
   getListings,
   deleteListing,
@@ -8,10 +12,8 @@ const {
   addNewListing,
   getNewListing,
   addReview,
+  deleteReview,
 } = require("../Controllers/controllers");
-const ExpressError = require("../utils/ExpressError")
-const Router = express.Router();
-const listingSchema = require("../schema");
 
 function validateListing(req, res, next) {
   const { error } = listingSchema.validate(req.body);
@@ -23,18 +25,28 @@ function validateListing(req, res, next) {
   }
 }
 
+function validateReview(req, res, next) {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(", ");
+    return next(new ExpressError(400, msg));
+  } else {
+    next();
+  }
+}
 
-Router.get("/", (req, res) => {
-  res.redirect("/listings");
-});
+Router.get("/", (req, res) => res.redirect("/listings"));
 Router.get("/listings", getListings);
 Router.get("/listings/new", getNewListing);
 Router.get("/listings/:id", getListingInfo);
 Router.get("/listings/edit/:id", editListingInfo);
-Router.delete("/listings/delete/:id", deleteListing);
 
 Router.post("/listings/new", validateListing, addNewListing);
+Router.post("/listings/:id/reviews", validateReview, addReview);
+
 Router.put("/listings/edit/:id", validateListing, EditListing);
-Router.post("/listings/:id/reviews",addReview)
+
+Router.delete("/listings/delete/:id", deleteListing);
+Router.delete("/listings/:id/reviews/:reviewId", deleteReview);
 
 module.exports = Router;
