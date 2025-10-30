@@ -21,6 +21,7 @@ async function getNewListing(req, res) {
 }
 
 async function addNewListing(req, res, next) {
+  req.flash("success", "Listing created Successfully");
   try {
     const body = req.body;
     await Listings.insertOne({
@@ -44,7 +45,7 @@ async function editListingInfo(req, res) {
   res.render("EditListing", { listing });
 }
 
-async function EditListing(req, res) {
+async function EditListing(req, res, next) {
   try {
     if (!req.body.listing) {
       throw new ExpressError(400, "Bad Request, Send Valid Data");
@@ -70,6 +71,7 @@ async function deleteListing(req, res) {
 }
 
 async function addReview(req, res) {
+  req.flash("success", "New review Added");
   const id = req.params.id;
   console.log(id);
   let listing = await Listings.findById(id);
@@ -88,12 +90,12 @@ async function addReview(req, res) {
   res.redirect(`/listings/${id}`);
 }
 
-async function deleteReview(req,res){
+async function deleteReview(req, res) {
   const listingId = req.params.id;
   const reviewId = req.params.reviewId;
-  
-   await Listings.findByIdAndUpdate(listingId,{$pull:{reviews:reviewId}})
-   await Review.findByIdAndDelete(reviewId)
+
+  await Listings.findByIdAndUpdate(listingId, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
   res.redirect(`/listings/${listingId}`);
 }
 

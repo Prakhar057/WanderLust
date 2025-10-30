@@ -1,4 +1,5 @@
 <%layout("./layouts/boilerplate.ejs")%>
+
 <div class="showBody">
   <br />
   <h1><%= listing.title %></h1>
@@ -97,7 +98,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-secondary">Reviewed recently</small>
     
-                <!-- Delete button form -->
+                
                 <form
                   action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
                   method="POST"
