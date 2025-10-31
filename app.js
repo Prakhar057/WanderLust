@@ -6,14 +6,15 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
-const cookieparser = require("cookie-parser");
 const app = express();
 const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./Models/user");
 
 //MiddleWares
 app.set("view engine", "ejs");
 app.set("Views", path.join(__dirname, "Views"));
-app.use(flash());
 app.use(
   session({
     secret: "Supersecretpass",
@@ -26,7 +27,15 @@ app.use(
     },
   })
 );
-app.use(cookieparser());
+
+app.use(flash());
+//Passport Middlewares
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.engine("ejs", ejsMate);
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
@@ -34,8 +43,10 @@ app.use(express.json());
 app.use(express.static("./Public"));
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
+  res.locals.notFound = req.flash("notFound");
   next();
 });
+
 app.use("/", Router);
 app.use("/", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));

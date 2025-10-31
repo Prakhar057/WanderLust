@@ -1,8 +1,7 @@
 const Listings = require("../Models/listings");
 const ExpressError = require("../utils/ExpressError");
-const wrapAsync = require("../utils/wrapAsync");
-const { listingSchema, reviewSchema } = require("../schema");
 const Review = require("../Models/reviews");
+const User = require("../Models/user");
 
 async function getListings(req, res) {
   const allListings = await Listings.find({});
@@ -12,8 +11,10 @@ async function getListings(req, res) {
 async function getListingInfo(req, res) {
   const id = req.params.id;
   const listing = await Listings.findById(id).populate("reviews");
-
-  res.render("Listing", { listing });
+  if (!listing) {
+    req.flash("notFound", "Listing Not Found");
+    res.redirect("/listings");
+  } else res.render("Listing", { listing });
 }
 
 async function getNewListing(req, res) {
@@ -42,12 +43,15 @@ async function addNewListing(req, res, next) {
 async function editListingInfo(req, res) {
   const id = req.params.id;
   const listing = await Listings.findById(id);
-  res.render("EditListing", { listing });
+  if (!listing) {
+    req.flash("notFound", "Listing does not exists");
+    res.redirect("/listings");
+  } else res.render("EditListing", { listing });
 }
 
 async function EditListing(req, res, next) {
   try {
-    if (!req.body.listing) {
+    if (!req.body) {
       throw new ExpressError(400, "Bad Request, Send Valid Data");
     }
     const id = req.params.id;
@@ -58,6 +62,7 @@ async function EditListing(req, res, next) {
       location: body.location,
       country: body.country,
     });
+    req.flash("success", "Listing Edited Successfully");
     res.redirect(`/listings`);
   } catch (err) {
     next(err);
@@ -67,6 +72,7 @@ async function EditListing(req, res, next) {
 async function deleteListing(req, res) {
   const id = req.params.id;
   await Listings.findByIdAndDelete(id);
+  req.flash("success", "Listing Deleted Successfully");
   res.redirect("/listings");
 }
 
@@ -98,7 +104,20 @@ async function deleteReview(req, res) {
   await Review.findByIdAndDelete(reviewId);
   res.redirect(`/listings/${listingId}`);
 }
-
+async function signUpForm(req, res) {
+  res.render("Signup");
+}
+async function registerUser(req, res) {
+  const { username, email, password } = req.body;
+  const user = new User({
+    email,
+    username,
+  });
+  const registeredUser = await User.register(user, password);
+  console.log(registeredUser);
+  req.flash("success","User was registered")
+  res.redirect("/listings")
+}
 module.exports = {
   getListings,
   getListingInfo,
@@ -109,4 +128,6 @@ module.exports = {
   deleteListing,
   addReview,
   deleteReview,
+  signUpForm,
+  registerUser,
 };

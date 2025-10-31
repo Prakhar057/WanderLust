@@ -1,27 +1,78 @@
-<%layout("./layouts/boilerplate.ejs")%>
+<% layout("./layouts/boilerplate.ejs") %>
 
-<body>
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <% allListings.forEach(listing => { %>
-    <a href="/listings/<%=listing.id%>" class="listing-link">
-      <div class="card col">
-        <img
-          src="<%=listing.image%>"
-          class="card-img-top"
-          alt="listing-image"
-         
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body">
-          <p class="card-text">
-            <%=listing.title%>
-            <br />
-            <%=listing.price.toLocaleString("en-IN")%>
-          </p>
-        </div>
-      </div>
-    </a>
-
-    <% }) %>
+<body class="bg-light">
+  <div class="container py-4">
+    <div class="listing-grid " >
+      <% allListings.forEach(listing => { %>
+        <a href="/listings/<%= listing.id %>" class="text-decoration-none text-dark">
+          <div class="card shadow-sm border-0 hover-shadow rounded-4 overflow-hidden">
+            <div class="ratio ratio-16x9">
+              <img 
+                src="<%= listing.image %>" 
+                class="card-img-top object-fit-cover" 
+                alt="listing-image"
+              />
+            </div>
+            <div class="card-body mt-4">
+              <h5 class="card-title mb-1 text-truncate fw-semibold">
+                <%= listing.title %>
+              </h5>
+              <p class="text-muted mb-2">
+                <i class="fa-solid fa-location-dot me-1 text-danger"></i>
+                <%= listing.country %>
+              </p>
+              <p class="card-text fw-bold text-success mb-0">
+                ₹<%= listing.price.toLocaleString("en-IN") %>
+              </p>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
   </div>
+
+  <style>
+   
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+  
+    @media (max-width: 1200px) {
+      .listing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    
+    @media (max-width: 768px) {
+      .listing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 🔹 Card styling */
+    .card {
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .object-fit-cover {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+
+    .card-img-top {
+      min-height: 200px;
+      max-height: 240px;
+    }
+  </style>
 </body>
