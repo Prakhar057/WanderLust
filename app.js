@@ -28,13 +28,14 @@ app.use(
   })
 );
 
-app.use(flash());
 //Passport Middlewares
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use(flash());
 
 app.engine("ejs", ejsMate);
 app.use(methodOverride("_method"));
@@ -43,7 +44,8 @@ app.use(express.json());
 app.use(express.static("./Public"));
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
-  res.locals.notFound = req.flash("notFound");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user;
   next();
 });
 

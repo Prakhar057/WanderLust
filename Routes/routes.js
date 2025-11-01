@@ -2,7 +2,8 @@ const express = require("express");
 const Router = express.Router({mergeParams:true});
 const ExpressError = require("../utils/ExpressError");
 const { listingSchema, reviewSchema } = require("../schema");
-const User = require("../Models/user")
+const passport = require("passport")
+const {isLoggedIn, saveRedirectUrl} = require("../middleware")
 
 const {
   getListings,
@@ -16,6 +17,9 @@ const {
   deleteReview,
   signUpForm,
   registerUser,
+  login,
+  checkLogin,
+  logOutUser,
 } = require("../Controllers/controllers");
 
 function validateListing(req, res, next) {
@@ -40,17 +44,24 @@ function validateReview(req, res, next) {
 
 Router.get("/", (req, res) => res.redirect("/listings"));
 Router.get("/listings", getListings);
-Router.get("/listings/new", getNewListing);
+Router.get("/listings/new",isLoggedIn, getNewListing);
 Router.get("/listings/:id", getListingInfo);
-Router.get("/listings/edit/:id", editListingInfo);
+Router.get("/listings/edit/:id",isLoggedIn, editListingInfo);
 Router.get("/signup",signUpForm)
+Router.get("/login",login)
+Router.get("/logout",logOutUser)
 
-Router.post("/listings/new", validateListing, addNewListing);
-Router.post("/listings/:id/reviews", validateReview, addReview);
+Router.post("/listings/new", validateListing,isLoggedIn, addNewListing);
+Router.post("/listings/:id/reviews", validateReview,isLoggedIn, addReview);
 Router.post("/register",registerUser)
-Router.put("/listings/edit/:id", validateListing, EditListing);
+Router.post(
+  "/login",
+saveRedirectUrl,
+  passport.authenticate("local",{failureRedirect:"/login",failureFlash : true}),
+  checkLogin)
+Router.put("/listings/edit/:id",isLoggedIn, validateListing, EditListing);
 
-Router.delete("/listings/delete/:id", deleteListing);
+Router.delete("/listings/delete/:id",isLoggedIn, deleteListing);
 Router.delete("/listings/:id/reviews/:reviewId", deleteReview);
 
 module.exports = Router;

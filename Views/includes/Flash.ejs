@@ -13,12 +13,12 @@
 </div>
 <% } %>
 
-<% if (notFound.length) { %>
+<% if (error.length) { %>
     <div
-      class="alert alert-danger alert-dismissible fade show col-6 offset-3"
+      class="alert alert-danger alert-dismissible fade show col-6 offset-3 mt-3"
       role="alert"
     >
-      <strong><%=notFound%></strong>
+      <strong><%=error%></strong>
       <button
         type="button"
         class="btn-close"

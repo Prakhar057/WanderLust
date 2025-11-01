@@ -10,15 +10,18 @@ async function getListings(req, res) {
 
 async function getListingInfo(req, res) {
   const id = req.params.id;
-  const listing = await Listings.findById(id).populate("reviews");
+  const listing = await Listings.findById(id).populate("reviews").populate("owner");
   if (!listing) {
-    req.flash("notFound", "Listing Not Found");
+    req.flash("error", "Listing Not Found");
     res.redirect("/listings");
   } else res.render("Listing", { listing });
 }
 
 async function getNewListing(req, res) {
-  res.render("NewListing");
+  if (!req.isAuthenticated()) {
+    req.flash("error", "You must be logged in to create listings");
+    res.redirect("/login");
+  } else res.render("NewListing");
 }
 
 async function addNewListing(req, res, next) {
@@ -44,7 +47,7 @@ async function editListingInfo(req, res) {
   const id = req.params.id;
   const listing = await Listings.findById(id);
   if (!listing) {
-    req.flash("notFound", "Listing does not exists");
+    req.flash("error", "Listing does not exists");
     res.redirect("/listings");
   } else res.render("EditListing", { listing });
 }
@@ -108,16 +111,48 @@ async function signUpForm(req, res) {
   res.render("Signup");
 }
 async function registerUser(req, res) {
-  const { username, email, password } = req.body;
-  const user = new User({
-    email,
-    username,
-  });
-  const registeredUser = await User.register(user, password);
-  console.log(registeredUser);
-  req.flash("success","User was registered")
-  res.redirect("/listings")
+  try {
+    const { username, email, password } = req.body;
+    const user = new User({
+      email,
+      username,
+    });
+    const registeredUser = await User.register(user, password);
+    req.login(registeredUser, (err) => {
+      if (err) {
+        return next(err);
+      } else {
+        req.flash("success", "Welcome to Wanderlust");
+        res.redirect(req.session.redirectUrl);
+      }
+    });
+  } catch (err) {
+    req.flash("error", err.message);
+    res.redirect("/signup");
+  }
 }
+
+async function login(req, res) {
+  res.render("login");
+}
+
+async function checkLogin(req, res) {
+  req.flash("success", "Welcome back to WanderLust");
+  if (!res.locals.redirectUrl) res.redirect("/listings");
+  else res.redirect(res.locals.redirectUrl);
+}
+
+async function logOutUser(req, res) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    } else {
+      req.flash("success", "Logged Out Successfully");
+      res.redirect("/listings");
+    }
+  });
+}
+
 module.exports = {
   getListings,
   getListingInfo,
@@ -130,4 +165,7 @@ module.exports = {
   deleteReview,
   signUpForm,
   registerUser,
+  login,
+  checkLogin,
+  logOutUser,
 };
